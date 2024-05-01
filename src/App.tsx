@@ -3,10 +3,19 @@ import Layout from "./components/layout";
 import Home from "./routes/home";
 import Profile from "./routes/profile";
 import Login from "./routes/login";
-import CreateAccount from "./routes/createAccount";
+import LoadingScreen from "./components/loading-screen";
+import CreateAccount from "./routes/create-account";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import { useEffect, useState } from "react";
+import { auth } from "./firebase";
+import styled from "styled-components";
 
+const Wrapper = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+`;
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,11 +54,22 @@ body{
 }
 `;
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const init = async () => {
+    await auth.authStateReady();
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
-    <>
+    <Wrapper>
       <GlobalStyles />
-      <RouterProvider router={router} />
-    </>
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
+    </Wrapper>
   );
 }
 
