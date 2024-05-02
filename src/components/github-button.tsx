@@ -14,9 +14,11 @@ const Button = styled.span`
   align-items: center;
   justify-content: center;
   margin-top: 50px;
+  cursor: pointer;
 `;
 const Logo = styled.img`
   height: 25px;
+  margin-right: 5px;
 `;
 
 const GithubButton = () => {
@@ -29,8 +31,7 @@ const GithubButton = () => {
 
   return (
     <Button onClick={onClick}>
-      <Logo src="/github-logo.svg" />
-      Continue with Github
+      <Logo src="/github-logo.svg" /> Continue with Github
     </Button>
   );
 };
