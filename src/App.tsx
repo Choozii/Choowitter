@@ -6,6 +6,7 @@ import Login from "./routes/login";
 import LoadingScreen from "./components/loading-screen";
 import CreateAccount from "./routes/create-account";
 import { createGlobalStyle } from "styled-components";
+import ProtectedRoute from "./components/protected-route";
 import reset from "styled-reset";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
@@ -16,10 +17,28 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+const GlobalStyles = createGlobalStyle`
+${reset};
+*{
+  box-sizing : border-box;
+}
+
+body{
+  background-color : black;
+  color:white;
+  font-family : system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+`;
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "",
@@ -41,18 +60,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-const GlobalStyles = createGlobalStyle`
-${reset};
-*{
-  box-sizing : border-box;
-}
-
-body{
-  background-color : black;
-  color:white;
-  font-family : system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-`;
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
